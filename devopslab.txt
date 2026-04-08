@@ -1,0 +1,218 @@
+11.devops1   ✅  ← THIS is your project
+ ├── src
+ ├── calculator.java
+ ├── CalculatorTest.java
+Right click:
+  devops1   ✅
+  Build Path → Add Libraries
+  JUnit → Next → JUnit 4 → Finish
+  Apply and Close
+Before doing this, delete this file:
+	module-info.java
+Right click CalculatorTest.java → Run As → JUnit Test
+package devops1;
+
+public class calculator {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int sub(int a, int b) {
+        return a - b;
+    }
+
+    public int mul(int a, int b) {
+        return a * b;
+    }
+
+    public int div(int a, int b) {
+        if (b == 0)
+            throw new ArithmeticException("Cannot divide by zero");
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        calculator c = new calculator();
+
+        System.out.println("Addition: " + c.add(10, 5));
+        System.out.println("Subtraction: " + c.sub(10, 5));
+        System.out.println("Multiplication: " + c.mul(10, 5));
+        System.out.println("Division: " + c.div(10, 5));
+    }
+}
+
+package devops1;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+public class CalculatorTest {
+
+    calculator c = new calculator();
+
+    @Test
+    public void testAdd() {
+        assertEquals(15, c.add(10, 5));
+    }
+
+    @Test
+    public void testSub() {
+        assertEquals(5, c.sub(10, 5));
+    }
+
+    @Test
+    public void testMul() {
+        assertEquals(50, c.mul(10, 5));
+    }
+
+    @Test
+    public void testDiv() {
+        assertEquals(2, c.div(10, 5));
+    }
+
+    @Test(expected = ArithmeticException.class)
+    public void testDivByZero() {
+        c.div(10, 0);
+    }
+}
+
+12
+C:\Users\rahul\Desktop\demo\demo1\maven_demo\src\main\java\org\bnm_demo>javac App.java
+
+C:\Users\rahul\Desktop\demo\demo1\maven_demo\src\main\java\org\bnm_demo>java App.java
+Addition: 15
+Subtraction: 5
+Multiplication: 50
+Division: 2
+
+
+package org.bnm_demo;
+
+public class App {
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int sub(int a, int b) {
+        return a - b;
+    }
+
+    public int mul(int a, int b) {
+        return a * b;
+    }
+
+    public int div(int a, int b) {
+        if (b == 0)
+            throw new ArithmeticException("Cannot divide by zero");
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        App c = new App();
+
+        System.out.println("Addition: " + c.add(10, 5));
+        System.out.println("Subtraction: " + c.sub(10, 5));
+        System.out.println("Multiplication: " + c.mul(10, 5));
+        System.out.println("Division: " + c.div(10, 5));
+    }
+}
+
+
+package org.bnm_demo;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+class AppTest {
+
+    App c = new App();
+
+    @Test
+    void testAdd() {
+        assertEquals(15, c.add(10, 5));
+    }
+
+    @Test
+    void testSub() {
+        assertEquals(5, c.sub(10, 5));
+    }
+
+    @Test
+    void testMul() {
+        assertEquals(50, c.mul(10, 5));
+    }
+
+    @Test
+    void testDiv() {
+        assertEquals(2, c.div(10, 5));
+    }
+
+    @Test
+    void testDivByZero() {
+        assertThrows(ArithmeticException.class, () -> c.div(10, 0));
+    }
+}
+
+13
+Manage Jenkins → Manage Plugins
+cd C:\Users\rahul\Desktop\demo\demo1\maven_demo
+git init
+git add .
+git commit -m "Initial commit - calculator with JUnit"
+https://github.com/yourname/calculator-project.git
+git remote add origin https://github.com/yourname/calculator-project.git
+git branch -M main
+git push -u origin main
+git branch -M main
+New Item
+Freestyle Project
+Source Code Management → Git
+Build → Add build step → Invoke top-level Maven targets
+Add post-build action → Publish JUnit test result report
+Build Now
+target/surefire-reports/*.xml
+clean test
+
+15
+docker --version
+docker ps
+docker ps -a
+docker images
+docker run hello-world
+docker ps -a
+docker pull nginx
+docker run -d -p 8088:80 nginx
+docker stop  dd34ccf6dda20333544be6f5521e95c7b30a532bcf256714d
+docker rm dd34ccf6dda20333544be6f5521e95c7b30a532bcf256714d
+
+16 
+create folder- DockApp
+create file- helloworld.java
+  public class helloworld {
+    
+    public static void main(String[] args) {
+        System.out.println("Hello, Docker + Java!");
+    }
+}
+create file-Dockerfile
+
+ FROM eclipse-temurin:17-jdk
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy Java file into container
+COPY helloworld.java .
+
+# Compile the Java program
+RUN javac helloworld.java
+
+# Run the program
+CMD ["java", "helloworld"]
+
+C:\Users\rahul\Desktop\docker_app>docker build -t java-hello .
+in cmd-
+docker build -t java-hello .
+docker run java-hello
